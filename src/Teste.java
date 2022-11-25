@@ -1,4 +1,3 @@
-import java.util.Iterator;
 
 public class Teste {
 
@@ -11,7 +10,7 @@ public class Teste {
 
 	private static Leitura lei = new Leitura();
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws VeicExistException, VelocException {
 		System.out.println("-----------------------------");
 
 		boolean continua = true;
@@ -41,25 +40,54 @@ public class Teste {
 			switch (opcao) {
 			case 1:
 				for (int i = achaVagoPasseio(); i < vetPasseio.length; i++) {
+
 					if (i == -1) {
-						lei.entDados("Vetor de PASSEIO esta cheio!! press <ENTER>");
+						lei.entDados("\nVetor de passseio está cheio - press <ENTER>");
+						break;
+					}
+					
+					// Cria um novo passeio
+					passeio = cadPasseio(new Passeio());
+
+					// Verifica se a placa já foi informada nos passeios anteriores
+					boolean existePlaca = false;
+					for (int j = 0; j < i; j++) {
+						try {
+							if (vetPasseio[j].getPlaca().equalsIgnoreCase(passeio.getPlaca())) {
+								existePlaca = true;
+								System.out.println(
+										"\nEssa placa pertence ao passeio da posicao: "
+												+ j + " do vetor");
+								throw new VeicExistException();
+							}
+						} catch (VeicExistException e) {
+							e.impErro();
+							break;
+						} catch (NullPointerException e) {
+							e.getMessage();
+						}
+
 					}
 
-					passeio = new Passeio();
-					vetPasseio[i] = cadPasseio(passeio);
+					// Adiciona a carga no vetor
+					if (!existePlaca) {
+						vetPasseio[i] = passeio;
+						System.out.println("\nVeiculo passeio armazenado na posicao " + i + " do vetor");
+					}
 
-					lei.entDados("Passeio armazenado na posicao: " + i + " press <ENTER>");
+					//lei.entDados("Passeio armazenada na posicao: " + i + " press <ENTER>");
+				
 
-					String respPass = lei.entDados("Deseja cadastrar outro PASSEIO? <s/n>");
+					String respPass = lei.entDados("\nDeseja cadastrar outro? <s/n>");
 
 					if (respPass.equalsIgnoreCase("n")) {
 						break;
 					}
+
 					if (achaVagoPasseio() == -1) {
-						lei.entDados("Vetor de PASSEIO esta cheio! press <ENTER>");
+						lei.entDados("\nVetor de passseio esta cheio - press <ENTER>");
 						break;
 					}
-
 				}
 				break;
 
@@ -70,10 +98,35 @@ public class Teste {
 						break;
 					}
 
-					carga = new Carga();
-					vetCarga[i] = cadCarga(carga);
+					carga = cadCarga(new Carga());
 
-					lei.entDados("Carga armazenada na posicao: " + i + " press <ENTER>");
+					// Verifica se a placa já foi informada nas cargas anteriores
+					boolean existePlaca = false;
+					for (int j = 0; j < i; j++) {
+						try {
+							if (vetCarga[j].getPlaca().equalsIgnoreCase(carga.getPlaca())) {
+								existePlaca = true;
+								System.out.println(
+										"\nEssa placa pertence a carga da posicao: "
+												+ j + " do vetor");
+								throw new VeicExistException();
+							}
+						} catch (VeicExistException e) {
+							e.impErro();
+							break;
+						} catch (NullPointerException e) {
+							e.getMessage();
+						}
+
+					}
+
+					// Adiciona a carga no vetor
+					if (!existePlaca) {
+						vetCarga[i] = carga;
+						System.out.println("\nVeiculo carga armazenado na posicao " + i + " do vetor");
+					}
+
+					//lei.entDados("Carga armazenada na posicao: " + i + " press <ENTER>");
 
 					String respCarg = lei.entDados("Deseja cadastrar outra carga? <s/n>");
 
@@ -97,7 +150,7 @@ public class Teste {
 					if (vetPasseio[i] != null) {
 						impPasseio(vetPasseio[i], i);
 					} else {
-						lei.entDados("Sem veiculos PASSEIO para imprimir press <ENTER>");
+						lei.entDados("Sem veiculos PASSEIO posicao: " + i + " p/ imprimir press <ENTER>");
 					}
 				}
 				System.out.println("-----------------------------");
@@ -106,10 +159,10 @@ public class Teste {
 				System.out.println("Impressao veiculos CARGA");
 				System.out.println("-----------------------------");
 				for (int i = 0; i < vetCarga.length; i++) {
-					if (vetCarga[1] != null) {
+					if (vetCarga[i] != null) {
 						impCarga(vetCarga[i], i);
 					} else {
-						lei.entDados("Sem veiculos CARGA p/ imprimir press <ENTER>");
+						lei.entDados("Sem veiculos CARGA posicao: " + i + " p/ imprimir press <ENTER>");
 					}
 				}
 				System.out.println("-----------------------------");
@@ -138,7 +191,7 @@ public class Teste {
 					}
 				}
 				if (!existePlacaPasseio) {
-					lei.entDados("Nao existe veiculo passeio com a placa: " + placaPasseio);
+					lei.entDados("\nNao existe veiculo passeio com a placa: " + placaPasseio);
 				}
 
 				break;
@@ -205,7 +258,7 @@ public class Teste {
 	}
 
 	// Cadastrar Passeio
-	public static Passeio cadPasseio(Passeio passeio) {
+	public static Passeio cadPasseio(Passeio passeio) throws NumberFormatException, VelocException {
 		System.out.println("-----------------------------");
 		System.out.println("Cadastro de Veiculo de PASSEIO");
 		passeio.setQtdPassageiros(Integer.parseInt(lei.entDados("Qtde de Passageiros: ")));
@@ -214,7 +267,7 @@ public class Teste {
 		passeio.setModelo(lei.entDados("Modelo: "));
 		passeio.setCor(lei.entDados("Cor: "));
 		passeio.setQtdRodas(Integer.parseInt(lei.entDados("Qtde Rodas: ")));
-		passeio.setVelocMax(Float.parseFloat(lei.entDados("Veloc Max: ")));
+		passeio.setVelocMaxPasseio(Float.parseFloat(lei.entDados("Veloc Max: ")));
 		passeio.getMotor().setQtdPist(Integer.parseInt(lei.entDados("Qtd Pistao: ")));
 		passeio.getMotor().setPotencia(Integer.parseInt(lei.entDados("Potencia: ")));
 
@@ -240,7 +293,7 @@ public class Teste {
 	}
 
 	// Cadastrar Carga
-	public static Carga cadCarga(Carga carga) {
+	public static Carga cadCarga(Carga carga) throws NumberFormatException, VelocException {
 		System.out.println("-----------------------------");
 		System.out.println("Cadastro de Veiculo de CARGA");
 		carga.setTara(Integer.parseInt(lei.entDados("Tara: ")));
@@ -250,7 +303,7 @@ public class Teste {
 		carga.setModelo(lei.entDados("Modelo: "));
 		carga.setCor(lei.entDados("Cor: "));
 		carga.setQtdRodas(Integer.parseInt(lei.entDados("Qtd Rodas: ")));
-		carga.setVelocMax(Float.parseFloat(lei.entDados("Veloc Max: ")));
+		carga.setVelocMaxCarga(Float.parseFloat(lei.entDados("Veloc Max: ")));
 		carga.getMotor().setQtdPist(Integer.parseInt(lei.entDados("Qtd Pistao do motor: ")));
 		carga.getMotor().setPotencia(Integer.parseInt(lei.entDados("Potencia do motor: ")));
 

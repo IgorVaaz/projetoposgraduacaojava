@@ -56,8 +56,30 @@ public abstract class Veiculo { // não deixa mais instanciar ela
 		return this.velocMax;
 	}
 
-	final public void setVelocMax(float velocMax) {
-		this.velocMax = velocMax;
+	final public void setVelocMaxPasseio(float velocMax){
+		try {
+			if (velocMax >= 80 && velocMax <= 110) {
+				this.velocMax = velocMax;
+			} else {
+				this.velocMax = 100;
+				throw new VelocException();
+			}
+		} catch (VelocException e) {
+			e.impErro();
+		}
+	}
+
+	final public void setVelocMaxCarga(float velocMax){
+		try {
+			if (velocMax >= 80 && velocMax <= 110) {
+				this.velocMax = velocMax;
+			} else {
+				this.velocMax = 90;
+				throw new VelocException();
+			}
+		} catch (VelocException e) {
+			e.impErro();
+		}
 	}
 
 	public int getQtdRodas() {

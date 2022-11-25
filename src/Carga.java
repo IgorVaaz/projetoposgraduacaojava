@@ -11,7 +11,7 @@ public final class Carga extends Veiculo implements Calcular {
 
 	@Override
 	public void calcVel(float velocMax) {
-		System.out.println("Velocidade Carga: " + velocMax * 100000 + "CM/H");
+		System.out.println("Velocidade Carga Atualizada: " + velocMax * 100000 + "CM/H");
 	}
 
 	@Override

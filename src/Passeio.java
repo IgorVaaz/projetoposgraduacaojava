@@ -9,7 +9,7 @@ public final class Passeio extends Veiculo implements Calcular {
 
 	@Override
 	public void calcVel(float velocMax) {
-		System.out.println("Velocidade Passeio: " + velocMax * 1000 + "M/H");
+		System.out.println("Velocidade Passeio Atualizada: " + velocMax * 1000 + "M/H");
 	}
 
 	@Override
