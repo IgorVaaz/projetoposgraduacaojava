@@ -9,10 +9,10 @@ public abstract class Veiculo { // não deixa mais instanciar ela
 	private Motor motor;
 
 	public Veiculo() {
-		this.placa = " ";
-		this.marca = " ";
-		this.modelo = " ";
-		this.cor = " ";
+		this.placa = "";
+		this.marca = "";
+		this.modelo = "";
+		this.cor = "";
 		this.velocMax = 0;
 		this.qtdRodas = 0;
 		motor = new Motor();
@@ -56,7 +56,7 @@ public abstract class Veiculo { // não deixa mais instanciar ela
 		return this.velocMax;
 	}
 
-	final public void setVelocMaxPasseio(float velocMax){
+	final public void setVelocMaxPasseio(float velocMax) {
 		try {
 			if (velocMax >= 80 && velocMax <= 110) {
 				this.velocMax = velocMax;
@@ -69,7 +69,7 @@ public abstract class Veiculo { // não deixa mais instanciar ela
 		}
 	}
 
-	final public void setVelocMaxCarga(float velocMax){
+	final public void setVelocMaxCarga(float velocMax) {
 		try {
 			if (velocMax >= 80 && velocMax <= 110) {
 				this.velocMax = velocMax;

@@ -45,7 +45,7 @@ public class Teste {
 						lei.entDados("\nVetor de passseio está cheio - press <ENTER>");
 						break;
 					}
-					
+
 					// Cria um novo passeio
 					passeio = cadPasseio(new Passeio());
 
@@ -55,9 +55,7 @@ public class Teste {
 						try {
 							if (vetPasseio[j].getPlaca().equalsIgnoreCase(passeio.getPlaca())) {
 								existePlaca = true;
-								System.out.println(
-										"\nEssa placa pertence ao passeio da posicao: "
-												+ j + " do vetor");
+								System.out.println("\nEssa placa pertence ao passeio da posicao: " + j + " do vetor");
 								throw new VeicExistException();
 							}
 						} catch (VeicExistException e) {
@@ -75,8 +73,7 @@ public class Teste {
 						System.out.println("\nVeiculo passeio armazenado na posicao " + i + " do vetor");
 					}
 
-					//lei.entDados("Passeio armazenada na posicao: " + i + " press <ENTER>");
-				
+					// lei.entDados("Passeio armazenada na posicao: " + i + " press <ENTER>");
 
 					String respPass = lei.entDados("\nDeseja cadastrar outro? <s/n>");
 
@@ -104,13 +101,14 @@ public class Teste {
 					boolean existePlaca = false;
 					for (int j = 0; j < i; j++) {
 						try {
-							if (vetCarga[j].getPlaca().equalsIgnoreCase(carga.getPlaca())) {
-								existePlaca = true;
-								System.out.println(
-										"\nEssa placa pertence a carga da posicao: "
-												+ j + " do vetor");
-								throw new VeicExistException();
-							}
+								for(int k = 0; k < i; k++) {
+									if((vetCarga[j].getPlaca().equalsIgnoreCase(carga.getPlaca()))
+											|| vetPasseio[k].getPlaca().equalsIgnoreCase(passeio.getPlaca())) {
+										existePlaca = true;
+										System.out.println("\nEssa placa pertence a carga da posicao: " + j + " do vetor");
+										throw new VeicExistException();
+									}
+								}
 						} catch (VeicExistException e) {
 							e.impErro();
 							break;
@@ -126,7 +124,7 @@ public class Teste {
 						System.out.println("\nVeiculo carga armazenado na posicao " + i + " do vetor");
 					}
 
-					//lei.entDados("Carga armazenada na posicao: " + i + " press <ENTER>");
+					// lei.entDados("Carga armazenada na posicao: " + i + " press <ENTER>");
 
 					String respCarg = lei.entDados("Deseja cadastrar outra carga? <s/n>");
 
