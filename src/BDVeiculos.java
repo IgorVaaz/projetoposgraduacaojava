@@ -8,19 +8,22 @@ public class BDVeiculos {
 
 	public static Passeio consPlacaPasseio(Passeio p) { // consultar placa passeio
 		for (int i = 0; i < BDPasseio.size(); i++) {
-			if (BDPasseio.get(i).getPlaca() == p.getPlaca()) {
+			if (p.getPlaca() == BDPasseio.get(i).getPlaca()) {
 				return BDPasseio.get(i);
 			}
 		}
 		return null;
 	}
 
-	public static void setBDPasseio(Passeio p) { // cadastrar passeio
+	public static Passeio setBDPasseio(Passeio p) { // cadastrar passeio
 		if (consPlacaPasseio(p) == null) {
 			BDPasseio.add(p);
-			System.out.println("Passeio cadastrada!");
+			//System.out.println("Passeio cadastrada!");
+			return p;
 		} else {
-			System.out.println("Placa já existe!");
+			//System.out.println("Placa já existe!");
+			return null;
+
 		}
 	}
 
@@ -32,7 +35,7 @@ public class BDVeiculos {
 		}
 		return null;
 	}
-	
+
 	public static void impUmaCarga(Carga c) {
 		System.out.println("\n-----------------------------");
 		System.out.println("Carga Max: " + c.getCargaMax());
