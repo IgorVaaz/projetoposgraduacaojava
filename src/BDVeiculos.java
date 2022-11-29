@@ -8,7 +8,7 @@ public class BDVeiculos {
 
 	public static Passeio consPlacaPasseio(Passeio p) { // consultar placa passeio
 		for (int i = 0; i < BDPasseio.size(); i++) {
-			if (p.getPlaca() == BDPasseio.get(i).getPlaca()) {
+			if (p.getPlaca().equalsIgnoreCase(BDPasseio.get(i).getPlaca())) {
 				return BDPasseio.get(i);
 			}
 		}
@@ -18,10 +18,8 @@ public class BDVeiculos {
 	public static Passeio setBDPasseio(Passeio p) { // cadastrar passeio
 		if (consPlacaPasseio(p) == null) {
 			BDPasseio.add(p);
-			//System.out.println("Passeio cadastrada!");
 			return p;
 		} else {
-			//System.out.println("Placa já existe!");
 			return null;
 
 		}
@@ -29,11 +27,20 @@ public class BDVeiculos {
 
 	public static Carga consPlacaCarga(Carga c) { // consulta placa carga
 		for (int i = 0; i < BDCarga.size(); i++) {
-			if (BDCarga.get(i).getPlaca() == c.getPlaca()) {
+			if (c.getPlaca().equalsIgnoreCase(BDCarga.get(i).getPlaca())) {
 				return BDCarga.get(i);
 			}
 		}
 		return null;
+	}
+
+	public static Carga setBDCarga(Carga c) { // cadastrar carga
+		if (consPlacaCarga(c) == null) {
+			BDCarga.add(c);
+			return c;
+		} else {
+			return null;
+		}
 	}
 
 	public static void impUmaCarga(Carga c) {
@@ -52,19 +59,10 @@ public class BDVeiculos {
 		c.calcVel(c.getVelocMax());
 	}
 
-	public static void setBDCarga(Carga c) { // cadastrar carga
-		if (consPlacaCarga(c) == null) {
-			BDCarga.add(c);
-			System.out.println("Carga cadastrada!");
-		} else {
-			System.out.println("Placa já existe!");
-		}
-	}
-
 	public static void impListaCarga() {
 		for (int i = 0; i < BDCarga.size(); i++) {
 			System.out.println("\n-----------------------------");
-			System.out.println("Carga do endereco: " + i + " do vetCarga[i]");
+			System.out.println("Carga do endereco: " + i + " do BDCcarga.get(i)");
 			System.out.println("Carga Max: " + BDCarga.get(i).getCargaMax());
 			System.out.println("Tara: " + BDCarga.get(i).getTara());
 			System.out.println("Placa: " + BDCarga.get(i).getPlaca());
@@ -80,10 +78,25 @@ public class BDVeiculos {
 		}
 	}
 
+	public static void impUmPasseio(Passeio p) {
+		System.out.println("\n-----------------------------");
+		System.out.println("Qtde de Passageiros: " + p.getQtdPassageiros());
+		System.out.println("Placa: " + p.getPlaca());
+		System.out.println("Marca: " + p.getMarca());
+		System.out.println("Modelo: " + p.getModelo());
+		System.out.println("Cor: " + p.getCor());
+		System.out.println("Qtd Rodas: " + p.getQtdRodas());
+		System.out.println("VelocidadeMaxima: " + p.getVelocMax());
+		System.out.println("Qtd Pistoes do motor: " + p.getMotor().getQtdPist());
+		System.out.println("Potencia do motor: " + p.getMotor().getPotencia());
+		System.out.println("Qtde de Letras: " + p.calcular());
+		p.calcVel(p.getVelocMax());
+	}
+
 	public static void impListaPasseio() {
 		for (int i = 0; i < BDPasseio.size(); i++) { // imprimir passeios
 			System.out.println("\n-----------------------------");
-			System.out.println("Passeio do endereco: " + i + " do vetPasseio[i]");
+			System.out.println("Passeio do endereco: " + i + " do BDPasseio.get(i)");
 			System.out.println("Qtde de Passageiros: " + BDPasseio.get(i).getQtdPassageiros());
 			System.out.println("Placa: " + BDPasseio.get(i).getPlaca());
 			System.out.println("Marca: " + BDPasseio.get(i).getMarca());

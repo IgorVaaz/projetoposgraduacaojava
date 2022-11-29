@@ -4,13 +4,9 @@ public class Teste {
 	// atributos static pois serão utilizados dentro do Main abaixo
 	private static Passeio passeio = new Passeio();
 	private static Carga carga = new Carga();
-
-	// private static Passeio vetPasseio[] = new Passeio[5];
-	// private static Carga vetCarga[] = new Carga[5];
-
 	private static Leitura lei = new Leitura();
 
-	public static void main(String[] args) throws VeicExistException, VelocException {
+	public static void main(String[] args) throws VeicExistException, NumberFormatException, VelocException {
 		System.out.println("-----------------------------");
 
 		boolean continua = true;
@@ -54,14 +50,18 @@ public class Teste {
 				p.getMotor().setQtdPist(Integer.parseInt(lei.entDados("Qtd Pistao: ")));
 				p.getMotor().setPotencia(Integer.parseInt(lei.entDados("Potencia: ")));
 
-				p = BDVeiculos.setBDPasseio(p);
-				if (p != null) {
-					System.out.println("\nPasseio Cadastrado com Sucesso!");
-					break;
-				} else {
-					System.out.println("Placa já utilizada!");
-					break;
+				try {
+					p = BDVeiculos.setBDPasseio(p);
+					if (p != null) {
+						lei.entDados("\nPasseio Cadastrada com Sucesso! <<press ENTER>>");
+					} else {
+						throw new VeicExistException();
+					}
+				} catch (VeicExistException e) {
+					e.impErro();
 				}
+
+				break;
 
 			case 2:
 				Carga c = new Carga();
@@ -78,21 +78,30 @@ public class Teste {
 				c.getMotor().setQtdPist(Integer.parseInt(lei.entDados("Qtd Pistao do motor: ")));
 				c.getMotor().setPotencia(Integer.parseInt(lei.entDados("Potencia do motor: ")));
 
-				BDVeiculos.setBDCarga(c);
-				// System.out.println("\nCarga Cadastrado com Sucesso!");
+				try {
+					c = BDVeiculos.setBDCarga(c);
+					if (c != null) {
+						lei.entDados("\nCarga Cadastrada com Sucesso! <<press ENTER>>");
+					} else {
+						throw new VeicExistException();
+					}
+				} catch (VeicExistException e) {
+					e.impErro();
+				}
+
 				break;
 
 			case 3:
 				System.out.println("Impressao veiculos PASSEIO");
-				System.out.println("-----------------------------");
+				System.out.println("\n-----------------------------");
 				BDVeiculos.impListaPasseio();
-				System.out.println("-----------------------------");
+				System.out.println("\n-----------------------------");
 				break;
 			case 4:
 				System.out.println("Impressao veiculos CARGA");
-				System.out.println("-----------------------------");
+				System.out.println("\n-----------------------------");
 				BDVeiculos.impListaCarga();
-				System.out.println("-----------------------------");
+				System.out.println("\n-----------------------------");
 				break;
 
 			case 5:
@@ -106,10 +115,10 @@ public class Teste {
 
 				passeio = BDVeiculos.consPlacaPasseio(passeio);
 
-				if (passeio == null) {
-					System.out.println("\nPlaca nao existe");
+				if (passeio != null) {
+					BDVeiculos.impUmPasseio(passeio);
 				} else {
-					System.out.println("Qtde Passageiros: " + passeio.getQtdPassageiros());
+					lei.entDados("\n Nao existe passeio com essa placa! <<press ENTER>>");
 				}
 
 				break;
@@ -127,7 +136,7 @@ public class Teste {
 				if (carga != null) {
 					BDVeiculos.impUmaCarga(carga);
 				} else {
-					lei.entDados("\n Nao existe carga com essa placa!");
+					lei.entDados("\n Nao existe carga com essa placa! <<press ENTER>>");
 				}
 
 				break;
@@ -138,13 +147,12 @@ public class Teste {
 				passeio.setPlaca(lei.entDados("\nInforme a placa para excluir: "));
 
 				passeio = BDVeiculos.consPlacaPasseio(passeio);
-				if (passeio == null) {
-					System.out.println("Placa nao existe");
-					break;
+				if (passeio != null) {
+					BDVeiculos.delBDPasseio(passeio);
+					lei.entDados("\nPasseio excluido com sucesso!");
 
 				} else {
-					BDVeiculos.delBDPasseio(passeio);
-					System.out.println("Exluido com sucesso!");
+					lei.entDados("\nNao existe Passeio com essa Placa!");
 				}
 				break;
 
@@ -153,14 +161,14 @@ public class Teste {
 				System.out.println("Excluir Veiculo de CARGA pela Placa");
 				carga = new Carga();
 				carga.setPlaca(lei.entDados("Informe a placa:"));
-				carga = BDVeiculos.consPlacaCarga(carga);
 
+				carga = BDVeiculos.consPlacaCarga(carga);
 				if (carga != null) {
 					BDVeiculos.delBDCarga(carga);
-					System.out.println("Carga excluida com sucesso");
+					lei.entDados("\nCarga excluido com sucesso!");
 					break;
 				} else {
-					lei.entDados("\nNao existe carga com essa placa!");
+					lei.entDados("\nNao existe Carga com essa Placa!");
 				}
 
 				break;
@@ -170,7 +178,7 @@ public class Teste {
 				break;
 
 			default:
-				lei.entDados("O valor deve ser >=1 e <= 7 press <ENTER>");
+				lei.entDados("O valor deve ser >=1 e <= 9 press <ENTER>");
 				break;
 			} // fim do switch-case
 

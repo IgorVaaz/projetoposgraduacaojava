@@ -56,7 +56,7 @@ public abstract class Veiculo { // não deixa mais instanciar ela
 		return this.velocMax;
 	}
 
-	final public void setVelocMaxPasseio(float velocMax) {
+	final public void setVelocMaxPasseio(float velocMax) throws VelocException {
 		try {
 			if (velocMax >= 80 && velocMax <= 110) {
 				this.velocMax = velocMax;
@@ -69,7 +69,7 @@ public abstract class Veiculo { // não deixa mais instanciar ela
 		}
 	}
 
-	final public void setVelocMaxCarga(float velocMax) {
+	final public void setVelocMaxCarga(float velocMax) throws VelocException {
 		try {
 			if (velocMax >= 80 && velocMax <= 110) {
 				this.velocMax = velocMax;
