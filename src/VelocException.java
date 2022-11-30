@@ -1,12 +1,24 @@
+
 import java.io.IOException;
+
+import javax.swing.JOptionPane;
 
 public class VelocException extends IOException {
 
 	VelocException() {
-		System.out.println("\nA velocidade maxima esta fora dos limites brasileiros! <EXCEPTION> ");
+		JOptionPane.showConfirmDialog(null,
+				"A velocidade maxima esta fora dos limites brasileiros!",
+				"Alerta de Velocidade Maxima",
+				JOptionPane.WARNING_MESSAGE
+				);
 	}
 
 	public void impErro() {
-		System.out.println("\nVelocidade maxima acima do permitido! <EXCEPTION>");
+		JOptionPane.showConfirmDialog(
+				null,
+				"Velocidade maxima acima do permitido!",
+				"Alerta de Velocidade Maxima",
+				JOptionPane.WARNING_MESSAGE
+				);
 	}
 }

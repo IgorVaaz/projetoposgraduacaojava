@@ -1,4 +1,5 @@
 
 public interface Calcular {
-	public int calcular();
+
+    public int calcular();
 }
