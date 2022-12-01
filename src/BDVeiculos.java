@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BDVeiculos {
 
-    private static List<Passeio> BDPasseio = new ArrayList<Passeio>();
+    static List<Passeio> BDPasseio = new ArrayList<Passeio>();
     private static List<Carga> BDCarga = new ArrayList<Carga>();
     
     //Inicio singleton
@@ -129,6 +129,10 @@ public class BDVeiculos {
 
     public static void delBDCarga(Carga c) { // deletar carga
         BDCarga.remove(c);
+    }
+    
+    public static void delTodosBDPasseio() {
+    	BDPasseio.removeAll(BDPasseio);
     }
 
     public static List<Passeio> getListaPasseio() {
