@@ -1,5 +1,4 @@
 
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,18 +12,19 @@ import javax.swing.JTextField;
 public class CadastroPasseio implements ActionListener {
 
 	static JFrame janelaPasseio = new JFrame();
-	
-	//aplicando Singleton
+
+	// aplicando Singleton
 	private static CadastroPasseio cadastroPasseio = new CadastroPasseio();
-	
+
 	private static CadastroPasseio cadastroPasseioUnico;
+
 	public static CadastroPasseio getCadastroPasseio() {
-		if(cadastroPasseioUnico == null) {
+		if (cadastroPasseioUnico == null) {
 			cadastroPasseioUnico = new CadastroPasseio();
 		}
-			return cadastroPasseioUnico;
+		return cadastroPasseioUnico;
 	}
-	//finalizou singleton
+	// finalizou singleton
 
 	static JButton btCadastrar = new JButton("Cadastrar");
 	static JButton btLimpar = new JButton("Limpar");
@@ -63,39 +63,38 @@ public class CadastroPasseio implements ActionListener {
 		janelaPasseio.setSize(600, 450);
 		janelaPasseio.setTitle("Cadastro de Passeio");
 
-		
 		janelaPasseio.add(rtQtdPassageiro);
 		janelaPasseio.add(cxQtdPassageiro);
-		
+
 		janelaPasseio.add(rtPlaca);
 		janelaPasseio.add(cxPlaca);
-		
+
 		janelaPasseio.add(rtMarca);
 		janelaPasseio.add(cxMarca);
-		
+
 		janelaPasseio.add(rtModelo);
 		janelaPasseio.add(cxModelo);
-		
+
 		janelaPasseio.add(rtCor);
 		janelaPasseio.add(cxCor);
-		
+
 		janelaPasseio.add(rtQtdRodas);
 		janelaPasseio.add(cxQtdRodas);
-		
+
 		janelaPasseio.add(rtVelocidadeMax);
 		janelaPasseio.add(cxVelocidadeMax);
-		
+
 		janelaPasseio.add(rtQtdPistoes);
 		janelaPasseio.add(cxQtdPistoes);
-		
+
 		janelaPasseio.add(rtPotencia);
 		janelaPasseio.add(cxPotencia);
-		
+
 		janelaPasseio.add(btCadastrar);
 		janelaPasseio.add(btLimpar);
 		janelaPasseio.add(btNovo);
 		janelaPasseio.add(btSair);
-		
+
 		btCadastrar.addActionListener(cadastroPasseio);
 		btLimpar.addActionListener(cadastroPasseio);
 		btNovo.addActionListener(cadastroPasseio);
@@ -111,47 +110,43 @@ public class CadastroPasseio implements ActionListener {
 		if (evt.getSource().equals(btSair)) {
 			janelaPasseio.dispose();
 		}
-		if(evt.getSource().equals(btCadastrar)) {
+		if (evt.getSource().equals(btCadastrar)) {
 			cadastrarPasseio();
 		}
-		if(evt.getSource().equals(btLimpar)) {
+		if (evt.getSource().equals(btLimpar)) {
 			limparDados();
 		}
 
 	}
-	
+
 	public void cadastrarPasseio() {
 		Passeio p = new Passeio();
-        System.out.println("\nEntrou no Cadastro de PASSEIO\n");
-        p.setQtdPassageiros(Integer.parseInt(cxQtdPassageiro.getText()));
-        p.setPlaca(cxPlaca.getText());
-        p.setMarca(cxMarca.getText());
-        p.setModelo(cxModelo.getText());
-        p.setCor(cxCor.getText());
-        p.setQtdRodas(Integer.parseInt(cxQtdRodas.getText()));
-        p.setVelocMaxPasseio(Float.parseFloat(cxVelocidadeMax.getText()));
-        p.getMotor().setQtdPist(Integer.parseInt(cxQtdPistoes.getText()));
-        p.getMotor().setPotencia(Integer.parseInt(cxPotencia.getText()));
+		System.out.println("\nEntrou no Cadastro de PASSEIO\n");
+		p.setQtdPassageiros(Integer.parseInt(cxQtdPassageiro.getText()));
+		p.setPlaca(cxPlaca.getText());
+		p.setMarca(cxMarca.getText());
+		p.setModelo(cxModelo.getText());
+		p.setCor(cxCor.getText());
+		p.setQtdRodas(Integer.parseInt(cxQtdRodas.getText()));
+		p.setVelocMaxPasseio(Float.parseFloat(cxVelocidadeMax.getText()));
+		p.getMotor().setQtdPist(Integer.parseInt(cxQtdPistoes.getText()));
+		p.getMotor().setPotencia(Integer.parseInt(cxPotencia.getText()));
 
-        try {
-            BDVeiculos.getBDveiculos();
+		try {
+			BDVeiculos.getBDveiculos();
 			p = BDVeiculos.setBDPasseio(p);
-            if (p != null) {
-            	JOptionPane.showConfirmDialog(
-                        null,
-                        "Passeio cadastrada com sucesso!",
-                        "Cadastro de Passeio",
-                        JOptionPane.INFORMATION_MESSAGE
-                );
-            	limparDados();
-            } else {
-                throw new VeicExistException();
-            }
-        } catch (VeicExistException e) {
-        	e.impErro();
-        }
+			if (p != null) {
+				JOptionPane.showConfirmDialog(null, "Passeio cadastrada com sucesso!", "Cadastro de Passeio",
+						JOptionPane.INFORMATION_MESSAGE);
+				limparDados();
+			} else {
+				throw new VeicExistException();
+			}
+		} catch (VeicExistException e) {
+			e.impErro();
+		}
 	}
-	
+
 	public void limparDados() {
 		cxQtdPassageiro.setText("");
 		cxPlaca.setText("");

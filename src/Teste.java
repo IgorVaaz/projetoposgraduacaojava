@@ -113,7 +113,7 @@ public class Teste {
 
                     passeio.setPlaca(lei.entDados("\nInforme a placa: "));
 
-                    passeio = BDVeiculos.consPlacaPasseio(passeio);
+                    passeio = BDVeiculos.consPlacaCarga(passeio);
 
                     if (passeio != null) {
                         BDVeiculos.impUmPasseio(passeio);
@@ -146,7 +146,7 @@ public class Teste {
                     passeio = new Passeio();
                     passeio.setPlaca(lei.entDados("\nInforme a placa para excluir: "));
 
-                    passeio = BDVeiculos.consPlacaPasseio(passeio);
+                    passeio = BDVeiculos.consPlacaCarga(passeio);
                     if (passeio != null) {
                         BDVeiculos.delBDPasseio(passeio);
                         lei.entDados("\nPasseio excluido com sucesso!");

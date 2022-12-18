@@ -8,20 +8,20 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class ConsultarExcluirPlacaPasseio implements ActionListener {
+public class ConsultarExcluirPlacaCarga implements ActionListener {
 
 	static JFrame janelaConsultarExcluirPlaca = new JFrame();
 
 	// aplicando Singleton
-	private static ConsultarExcluirPlacaPasseio consultarExcluirPlacaPasseio = new ConsultarExcluirPlacaPasseio();
+	private static ConsultarExcluirPlacaCarga consultarExcluirPlacaCarga = new ConsultarExcluirPlacaCarga();
 
-	private static ConsultarExcluirPlacaPasseio consultarExcluirPlacaPasseioUnico;
+	private static ConsultarExcluirPlacaCarga consultarExcluirPlacaCargaUnica;
 
-	public static ConsultarExcluirPlacaPasseio getCadastroPasseio() {
-		if (consultarExcluirPlacaPasseioUnico == null) {
-			consultarExcluirPlacaPasseioUnico = new ConsultarExcluirPlacaPasseio();
+	public static ConsultarExcluirPlacaCarga getCadastroCarga() {
+		if (consultarExcluirPlacaCargaUnica == null) {
+			consultarExcluirPlacaCargaUnica = new ConsultarExcluirPlacaCarga();
 		}
-		return consultarExcluirPlacaPasseioUnico;
+		return consultarExcluirPlacaCargaUnica;
 	}
 	// finalizou singleton
 
@@ -32,8 +32,11 @@ public class ConsultarExcluirPlacaPasseio implements ActionListener {
 	static JLabel rtPlaca = new JLabel("Informe a Placa: ");
 	static JTextField cxPlaca = new JTextField(10);
 
-	static JLabel rtQtdPassageiro = new JLabel("Qtd. Passageiros: ");
-	static JTextField cxQtdPassageiro = new JTextField(4);
+	static JLabel rtTara = new JLabel("Tara: ");
+	static JTextField cxTara = new JTextField(4);
+
+	static JLabel rtCargaMax = new JLabel("Carga Max: ");
+	static JTextField cxCargaMax = new JTextField(4);
 
 	static JLabel rtMarca = new JLabel("Marca: ");
 	static JTextField cxMarca = new JTextField(15);
@@ -64,8 +67,11 @@ public class ConsultarExcluirPlacaPasseio implements ActionListener {
 		janelaConsultarExcluirPlaca.add(rtPlaca);
 		janelaConsultarExcluirPlaca.add(cxPlaca);
 
-		janelaConsultarExcluirPlaca.add(rtQtdPassageiro);
-		janelaConsultarExcluirPlaca.add(cxQtdPassageiro);
+		janelaConsultarExcluirPlaca.add(rtTara);
+		janelaConsultarExcluirPlaca.add(cxTara);
+
+		janelaConsultarExcluirPlaca.add(rtCargaMax);
+		janelaConsultarExcluirPlaca.add(cxCargaMax);
 
 		janelaConsultarExcluirPlaca.add(rtMarca);
 		janelaConsultarExcluirPlaca.add(cxMarca);
@@ -92,9 +98,9 @@ public class ConsultarExcluirPlacaPasseio implements ActionListener {
 		janelaConsultarExcluirPlaca.add(btExcluir);
 		janelaConsultarExcluirPlaca.add(btSair);
 
-		btConsultar.addActionListener(consultarExcluirPlacaPasseio);
-		btExcluir.addActionListener(consultarExcluirPlacaPasseio);
-		btSair.addActionListener(consultarExcluirPlacaPasseio);
+		btConsultar.addActionListener(consultarExcluirPlacaCarga);
+		btExcluir.addActionListener(consultarExcluirPlacaCarga);
+		btSair.addActionListener(consultarExcluirPlacaCarga);
 
 		janelaConsultarExcluirPlaca.setLayout(new FlowLayout());
 		janelaConsultarExcluirPlaca.setVisible(true);
@@ -107,7 +113,7 @@ public class ConsultarExcluirPlacaPasseio implements ActionListener {
 			janelaConsultarExcluirPlaca.dispose();
 		}
 		if (evt.getSource().equals(btConsultar)) {
-			consultarPelaPlacaPasseio();
+			consultarPelaPlacaCarga();
 		}
 		if (evt.getSource().equals(btExcluir)) {
 			excluirPelaPlaca();
@@ -115,24 +121,25 @@ public class ConsultarExcluirPlacaPasseio implements ActionListener {
 
 	}
 
-	public void consultarPelaPlacaPasseio() {
-		Passeio passeio = new Passeio();
+	public void consultarPelaPlacaCarga() {
+		Carga carga = new Carga();
 
-		passeio.setPlaca(cxPlaca.getText());
+		carga.setPlaca(cxPlaca.getText());
 
-		passeio = BDVeiculos.consPlacaCarga(passeio);
+		carga = BDVeiculos.consPlacaCarga(carga);
 
-		if (passeio != null) {
-			impUmPasseio(passeio);
+		if (carga != null) {
+			impUmCarga(carga);
 		} else {
-			JOptionPane.showConfirmDialog(null, "Nao existe passeio com essa placa!", "Placa nao encontrada",
+			JOptionPane.showConfirmDialog(null, "Nao existe carga com essa placa!", "Placa nao encontrada",
 					JOptionPane.ERROR_MESSAGE);
 			limparDados();
 		}
 	}
 
 	public void limparDados() {
-		cxQtdPassageiro.setText("");
+		cxTara.setText("");
+		cxCargaMax.setText("");
 		cxPlaca.setText("");
 		cxMarca.setText("");
 		cxModelo.setText("");
@@ -145,25 +152,27 @@ public class ConsultarExcluirPlacaPasseio implements ActionListener {
 	}
 
 	public void excluirPelaPlaca() {
-		System.out.println("Excluir Veiculo de PASSEIO pela Placa");
-		Passeio passeio = new Passeio();
-		passeio.setPlaca(cxPlaca.getText());
+		System.out.println("Excluir Veiculo de CARGA pela Placa");
+		Carga carga = new Carga();
+		carga.setPlaca(cxPlaca.getText());
 
-		passeio = BDVeiculos.consPlacaCarga(passeio);
-		if (passeio != null) {
-			BDVeiculos.delBDPasseio(passeio);
-			JOptionPane.showConfirmDialog(null, "Passeio excluido com sucesso!", "Exclusao de Passeio",
+		carga = BDVeiculos.consPlacaCarga(carga);
+		if (carga != null) {
+			BDVeiculos.delBDCarga(carga);
+			JOptionPane.showConfirmDialog(null, "Carga excluido com sucesso!", "Exclusao de Carga",
 					JOptionPane.INFORMATION_MESSAGE);
 
 		} else {
-			JOptionPane.showConfirmDialog(null, "Nao existe Passeio com essa Placa!", "Erro na Exclusao de Passeio",
+			JOptionPane.showConfirmDialog(null, "Nao existe Carga com essa Placa!", "Erro na Exclusao de Carga",
 					JOptionPane.INFORMATION_MESSAGE);
 		}
 		limparDados();
 	}
 
-	public void impUmPasseio(Passeio p) {
-		cxQtdPassageiro.setText(String.valueOf(p.getQtdPassageiros()));
+	public void impUmCarga(Carga p) {
+		cxTara.setText(String.valueOf(p.getTara()));
+		cxCargaMax.setText(String.valueOf(p.getCargaMax()));
+		cxPlaca.setText(String.valueOf(p.getPlaca()));
 		cxMarca.setText(p.getMarca());
 		cxModelo.setText(p.getModelo());
 		cxCor.setText(p.getCor());

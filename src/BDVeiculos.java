@@ -18,7 +18,7 @@ public class BDVeiculos {
     }
     //Fim singleton
 
-    public static Passeio consPlacaPasseio(Passeio p) { // consultar placa passeio
+    public static Passeio consPlacaCarga(Passeio p) { // consultar placa passeio
         for (int i = 0; i < BDPasseio.size(); i++) {
             if (p.getPlaca().equalsIgnoreCase(BDPasseio.get(i).getPlaca())) {
                 return BDPasseio.get(i);
@@ -28,7 +28,7 @@ public class BDVeiculos {
     }
 
     public static Passeio setBDPasseio(Passeio p) { // cadastrar passeio
-        if (consPlacaPasseio(p) == null) {
+        if (consPlacaCarga(p) == null) {
             BDPasseio.add(p);
             return p;
         } else {
@@ -134,9 +134,13 @@ public class BDVeiculos {
     public static void delTodosBDPasseio() {
     	BDPasseio.removeAll(BDPasseio);
     }
+    
+    public static void delTodosBDCarga() {
+    	BDCarga.removeAll(BDCarga);
+    }
 
     public static List<Passeio> getListaPasseio() {
-        return BDPasseio; // retorna lista
+        return BDPasseio; // retorna lista passeio
     }
 
     public static List<Carga> getListaCarga() {

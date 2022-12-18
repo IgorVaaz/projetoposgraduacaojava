@@ -11,17 +11,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class ImprimirExcluirTodosPasseio implements ActionListener {
+public class ImprimirExcluirTodosCarga implements ActionListener {
 
 	// inicio Singleton
-	private static ImprimirExcluirTodosPasseio imprimirExcluirTodosPasseio = new ImprimirExcluirTodosPasseio();
-	private static ImprimirExcluirTodosPasseio imprimirExcluirTodosPasseioUnico;
+	private static ImprimirExcluirTodosCarga imprimirExcluirTodosCarga = new ImprimirExcluirTodosCarga();
+	private static ImprimirExcluirTodosCarga imprimirExcluirTodosCargaUnica;
 
-	public static ImprimirExcluirTodosPasseio getImprimirExcluirTodosPasseio() {
-		if (imprimirExcluirTodosPasseioUnico == null) {
-			imprimirExcluirTodosPasseioUnico = new ImprimirExcluirTodosPasseio();
+	public static ImprimirExcluirTodosCarga getImprimirExcluirTodosPasseio() {
+		if (imprimirExcluirTodosCargaUnica == null) {
+			imprimirExcluirTodosCargaUnica = new ImprimirExcluirTodosCarga();
 		}
-		return imprimirExcluirTodosPasseioUnico;
+		return imprimirExcluirTodosCargaUnica;
 	}
 
 	// fim Singleton
@@ -32,7 +32,7 @@ public class ImprimirExcluirTodosPasseio implements ActionListener {
 
 	static JTable tabela;
 
-	static JPanel painelFundo = new JPanel();
+	static JPanel painelFundo;
 	static JScrollPane barraRolagem;
 	static DefaultTableModel modelo = new DefaultTableModel();
 
@@ -41,8 +41,8 @@ public class ImprimirExcluirTodosPasseio implements ActionListener {
 		janela.setSize(600, 450);
 		janela.setTitle("Imprimir/Excluir Todos");
 
+		painelFundo = new JPanel();
 		painelFundo.setLayout(new GridLayout(1, 1));
-		
 		tabela = new JTable(modelo);
 		modelo.addColumn("Placa");
 		modelo.addColumn("Marca");
@@ -52,7 +52,8 @@ public class ImprimirExcluirTodosPasseio implements ActionListener {
 		modelo.addColumn("Veloc Max");
 		modelo.addColumn("Qtd Pist");
 		modelo.addColumn("Potencia");
-		modelo.addColumn("Qtd Passag");
+		modelo.addColumn("Tara");
+		modelo.addColumn("Carga Max");
 
 		barraRolagem = new JScrollPane(tabela);
 		painelFundo.add(barraRolagem);
@@ -62,9 +63,9 @@ public class ImprimirExcluirTodosPasseio implements ActionListener {
 		janela.add(btSair);
 		janela.add(painelFundo);
 
-		btImprimirTodos.addActionListener(imprimirExcluirTodosPasseio);
-		btExcluirTodos.addActionListener(imprimirExcluirTodosPasseio);
-		btSair.addActionListener(imprimirExcluirTodosPasseio);
+		btImprimirTodos.addActionListener(imprimirExcluirTodosCarga);
+		btExcluirTodos.addActionListener(imprimirExcluirTodosCarga);
+		btSair.addActionListener(imprimirExcluirTodosCarga);
 
 		janela.setLayout(new FlowLayout());
 		janela.setVisible(true);
@@ -78,32 +79,33 @@ public class ImprimirExcluirTodosPasseio implements ActionListener {
 		}
 		if (e.getSource().equals(btImprimirTodos)) {
 			limparTabela();
-			imprimirTodosPasseio();
+			imprimirTodosCarga();
 		}
 		if (e.getSource().equals(btExcluirTodos)) {
-			excluirTodosPasseio();
+			excluirTodosCarga();
 		}
 
 	}
 
-	public void excluirTodosPasseio() {
-		BDVeiculos.delTodosBDPasseio();
+	public void excluirTodosCarga() {
+		BDVeiculos.delTodosBDCarga();
 		modelo.setRowCount(0);
-		JOptionPane.showConfirmDialog(null, "Todos Passeios Excluidos com Sucesso!", "Sucesso", JOptionPane.OK_OPTION);
+		JOptionPane.showConfirmDialog(null, "Todos Cargas Excluidos com Sucesso!", "Sucesso", JOptionPane.OK_OPTION);
 	}
 
-	public void imprimirTodosPasseio() {
+	public void imprimirTodosCarga() {
 
-		for (int i = 0; i < BDVeiculos.getListaPasseio().size(); i++) { // imprimir passeios
-			modelo.addRow(new Object[] { BDVeiculos.getListaPasseio().get(i).getPlaca(),
-					BDVeiculos.getListaPasseio().get(i).getMarca(),
-					BDVeiculos.getListaPasseio().get(i).getModelo(),
-					BDVeiculos.getListaPasseio().get(i).getCor(),
-					BDVeiculos.getListaPasseio().get(i).getQtdRodas(),
-					BDVeiculos.getListaPasseio().get(i).getVelocMax(),
-					BDVeiculos.getListaPasseio().get(i).getMotor().getQtdPist(),
-					BDVeiculos.getListaPasseio().get(i).getMotor().getPotencia(),
-					BDVeiculos.getListaPasseio().get(i).getQtdPassageiros() });
+		for (int i = 0; i < BDVeiculos.getListaCarga().size(); i++) { // imprimir cargas
+			modelo.addRow(new Object[] { BDVeiculos.getListaCarga().get(i).getPlaca(),
+					BDVeiculos.getListaCarga().get(i).getMarca(),
+					BDVeiculos.getListaCarga().get(i).getModelo(),
+					BDVeiculos.getListaCarga().get(i).getCor(),
+					BDVeiculos.getListaCarga().get(i).getQtdRodas(),
+					BDVeiculos.getListaCarga().get(i).getVelocMax(),
+					BDVeiculos.getListaCarga().get(i).getMotor().getQtdPist(),
+					BDVeiculos.getListaCarga().get(i).getMotor().getPotencia(),
+					BDVeiculos.getListaCarga().get(i).getTara(),
+					BDVeiculos.getListaCarga().get(i).getCargaMax() });
 		}
 
 	}
@@ -111,4 +113,5 @@ public class ImprimirExcluirTodosPasseio implements ActionListener {
 	public void limparTabela() {
 		modelo.setRowCount(0);
 	}
+
 }
